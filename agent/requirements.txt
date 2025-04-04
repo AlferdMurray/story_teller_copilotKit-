@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+copilotkit
+langgraph
+langchain_google_genai
+langchain_openai
