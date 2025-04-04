@@ -10,11 +10,10 @@ import { Chat } from './Components/Chat';
 function App() {
   return (
     <>
-      <CopilotKit runtimeUrl="http://localhost:4000/copilotkit">
+      <CopilotKit showDevConsole runtimeUrl="http://localhost:4000/copilotkit">
         <Chat/>
-        <div style={{width: "500px", float: "right",padding: "100px"}}>
-          <CopilotChat />
-        </div>
+        {/* <CopilotChat /> */}
+        
       </CopilotKit>
     </>
   );

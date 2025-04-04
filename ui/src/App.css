@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+.copilot-input {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 10;
+}

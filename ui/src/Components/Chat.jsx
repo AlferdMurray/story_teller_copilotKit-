@@ -1,27 +1,89 @@
-import React from "react";
-import CardContent from "./CardContent";
-import Card from "./Card";
-
+import React, { useEffect } from "react";
+import { Card, CardContent, Box, Typography } from "@mui/material";
+import { CopilotChat } from "@copilotkit/react-ui";
+import { useCoAgent, useCopilotContext } from "@copilotkit/react-core";
+import { useChatContext } from "@copilotkit/react-ui";
+import Dummy from "./Dummy";
+import { useCopilotChat } from "@copilotkit/react-core";
 export function Chat() {
+    const { state, setState,start } = useCoAgent({
+        name: "story-teller_agent",
+        initialState: {
+            story_query: "Tell me a story",
+            story: "",
+            story_title: ""
+        }
+    })
+    const { visibleMessages } = useCopilotChat();
+    useEffect(() => {
+        const timer = setTimeout(()=>{
+            console.log(visibleMessages)
+        },[3000])
+
+        return () => clearTimeout(timer)
+    },[state])
+
+    
+
+
     return (
         <>
-            <div className="flex h-screen">
+            <Box display="flex" height="100vh">
                 {/* Left: Canvas for Stories */}
-                <div className="w-2/3 bg-white p-6 overflow-auto">
-                    <Card className="mb-4 shadow-xl rounded-2xl">
+                <Box
+                    width="66.66%"
+                    bgcolor="white"
+                    p={4}
+                    sx={{ overflowY: "auto" }}
+                >
+                    <Card elevation={3} sx={{ borderRadius: 4, mb: 2 }}>
                         <CardContent>
-                            <h2 className="text-2xl font-bold mb-2">The Whispering Woods</h2>
-                            <p className="text-base">
-                                Deep in the forest, where sunlight dances through the leaves,
-                                a young girl named Aria discovered a grove that seemed to hum
-                                with ancient secrets. As she stepped into the clearing, the wind
-                                whispered tales of old heroes and forgotten magic. What she
-                                uncovered that day would change her village's fate forever.
-                            </p>
+                            <Typography variant="h4" fontWeight="bold" gutterBottom>
+                                {state.story_title || "Story Title comes Here"} 
+                            </Typography>
+                            <Typography variant="body1">
+                                {state.story || "Story comes here"}
+                            </Typography>
                         </CardContent>
                     </Card>
-                </div>
-            </div>
+                </Box>
+                <Box
+                    width="33.33%"
+                    display="flex"
+                    flexDirection="column"
+                    bgcolor="#f5f5f5"
+                    p={2}
+                >
+                    <CopilotChat
+                        // RenderActionExecutionMessage=}
+                        // RenderTextMessage={(message)=>{
+                        //     console.log(message,"message in chat");
+                            
+                        // }}
+
+                        RenderAgentStateMessage={(message)=>{
+                            console.log("state in chat",message);
+                            return(
+                                <p>{state.story}</p>
+                            )
+                            
+                        }}
+                        instructions={"You are assisting the user as best as you can. Answer in the best way possible given the data you have."}
+                        labels={{
+                            title: "My Assistant",
+                            initial: "Hi! 👋 How can I assist you today?",
+                        }}
+                        
+                        onInProgress={(state) => {
+                            console.log(state, "in progress:");
+                        }}
+                        onSubmitMessage={(message) => {
+                            setState({...state, story_query: message})
+                        }}
+                    />
+
+                </Box>
+            </Box>
         </>
     )
 }
