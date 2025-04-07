@@ -60,14 +60,14 @@ export function Chat() {
                         //     console.log(message,"message in chat");
                             
                         // }}
-
-                        RenderAgentStateMessage={(message)=>{
-                            console.log("state in chat",message);
-                            return(
-                                <p>{state.story}</p>
-                            )
+                        
+                        // RenderAgentStateMessage={(message)=>{
+                        //     console.log("state in chat",message);
+                        //     return(
+                        //         <p>{state.story}</p>
+                        //     )
                             
-                        }}
+                        // }}
                         instructions={"You are assisting the user as best as you can. Answer in the best way possible given the data you have."}
                         labels={{
                             title: "My Assistant",
